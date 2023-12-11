@@ -17,13 +17,21 @@
 
 # 輸出
 
+`pinMode(腳位,OUTPUT);`
+`digitalWrite(腳位,電位);`
+
 ---
 
 # 輸入
 
+`pinMode(腳位,INPUT);`
+`digitalRead(腳位);`
+
 ---
 
 # 按鈕、上拉電阻
+
+`pinMode(腳位,INPUT_PULLUP);`
 
 ---
 
@@ -32,7 +40,7 @@
 + 布林 boolean
 + 字元 char
 + 數字 
-  + 整數 byte,int
+  + 整數 byte,int,long
   + 小數 float,double
 
 ---
