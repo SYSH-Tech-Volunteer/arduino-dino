@@ -6,7 +6,7 @@
 #define SCREEN_HEIGHT 64
 #define OLED_RESET 4
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-const byte BUTTON,DINO_HIGHT,DINO_WIDTH,TREE_HIGHT,TREEWIDTH;
+const byte BUTTON,DINO_HIGHT,DINO_WIDTH,TREE_HIGHT,TREE_WIDTH,JUMP_MOVE;
 const bool 
   DINO[HIGHT][WIDTH]={
     {},{}
@@ -44,17 +44,27 @@ void setup(){
 }
 void loop(){
   play();
+  jumpped=0;
   treeX=SCREEN_WIDTH-TREE_WIDTH;
   treeY=SCREEN_HIGHT-TREE_HIGHT;
   while(jump||x>DINO_WIDTH){
     tree();
-    if(!digitalRead(BUTTON)&&!jump){
+    if(!digitalRead(BUTTON)&&!jump&&!jumpped){
       jump=1;
+      treeMove=0;
       display.fillRect(0,SCREEN_HIGHT-DINO_HIGHT,DINO_WIDTH,DINO_HIGHT,SSD1306_INVERSE);
+      dino();
+      display.display();
+    }
+    if(treeMove>=JUMP_MOVE){
+      jumpped=0;
+      jump=0;
+      display.fillRect(0,SCREEN_HIGHT-DINO_HIGHT-TREE_HIGHT,DINO_WIDTH,DINO_HIGHT,SSD1306_INVERSE);
       dino();
       display.display();
     }
     display.fillRect(treeX,SCREEN_HIGHT-TREE_HIGHT,TREE_WIDTH,TREE_HIGHT,SSD1306_INVERSE);
     display.display();
+    treeMove++;
   }
 }
