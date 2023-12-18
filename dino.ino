@@ -6,20 +6,32 @@
 #define SCREEN_HEIGHT 64
 #define OLED_RESET 4
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-const byte BUTTON,HIGHT,WIDTH;
+const byte BUTTON,DINO_HIGHT,DINO_WIDTH,TREE_HIGHT,TREEWIDTH;
 const boolean 
   DINO[HIGHT][WIDTH]={
     {},{}
   },
   TREE[][]={
     {},{}
+  },
+  PLAY[][]={
+    {},{}
   };
-byte i,j;
-void dino(byte x,byte y){
+boolean jumpped;
+byte i,j,x,y,treeMove;
+void dino(){
   for(i=0;i<HIGHT;i++){
     for(j=0;j<WIDTH;j++){
-      if(DINO[i][j])display.drawPixel(x,y,SSD1306_WHITE);
-      else ssd.draw(0,SCREEN_HEIGHT-HIGHT,SSD1306_INVERSE);
+      if(DINO[i][j])display.drawPixel(x+i,y+j,SSD1306_WHITE);
+      else ssd.draw(0,SCREEN_HEIGHT-DINO_HIGHT,SSD1306_INVERSE);
+    }
+  }
+}
+void tree(byte x,byte y){
+  for(i=0;i<HIGHT;i++){
+    for(j=0;j<WIDTH;j++){
+      if(TREE[i][j])display.drawPixel(x+i,y+j,SSD1306_WHITE);
+      else ssd.draw(0,SCREEN_HEIGHT-TREWE_HIGHT,SSD1306_INVERSE);
     }
   }
 }
@@ -31,6 +43,15 @@ void setup(){
   display.clearDisplay();
 }
 void loop(){
-  dino(0,0);
-  if(!digitalRead(BUTTON))dino(0,SCREEN_HEIGHT-HIGHT);
+  play();
+  while(jumpped||){
+    x=SCREEN_WIDTH-TREE_WIDTH;
+    y=SCREEN_HIGHT-TREE_HIGHT;
+    tree();
+    if(!digitalRead(BUTTON)){
+      x=0;
+      y=SCREEN_HEIGHT-DINO_HIGHT;
+      dino();
+    }
+  }
 }
