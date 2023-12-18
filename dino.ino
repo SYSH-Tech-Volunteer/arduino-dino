@@ -7,7 +7,7 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 const byte BUTTON,DINO_HIGHT,DINO_WIDTH,TREE_HIGHT,TREEWIDTH;
-const boolean 
+const bool 
   DINO[HIGHT][WIDTH]={
     {},{}
   },
@@ -17,8 +17,8 @@ const boolean
   PLAY[][]={
     {},{}
   };
-boolean jumpped;
-byte i,j,x,y,treeMove;
+bool jump,jumpped;
+byte i,j,x,y,treeMove,treeX;
 void dino(){
   for(i=0;i<HIGHT;i++){
     for(j=0;j<WIDTH;j++){
@@ -44,14 +44,17 @@ void setup(){
 }
 void loop(){
   play();
-  while(jumpped||){
-    x=SCREEN_WIDTH-TREE_WIDTH;
-    y=SCREEN_HIGHT-TREE_HIGHT;
+  treeX=SCREEN_WIDTH-TREE_WIDTH;
+  treeY=SCREEN_HIGHT-TREE_HIGHT;
+  while(jump||x>DINO_WIDTH){
     tree();
-    if(!digitalRead(BUTTON)){
-      x=0;
-      y=SCREEN_HEIGHT-DINO_HIGHT;
+    if(!digitalRead(BUTTON)&&!jump){
+      jump=1;
+      display.fillRect(0,SCREEN_HIGHT-DINO_HIGHT,DINO_WIDTH,DINO_HIGHT,SSD1306_INVERSE);
       dino();
+      display.display();
     }
+    display.fillRect(treeX,SCREEN_HIGHT-TREE_HIGHT,TREE_WIDTH,TREE_HIGHT,SSD1306_INVERSE);
+    display.display();
   }
 }
