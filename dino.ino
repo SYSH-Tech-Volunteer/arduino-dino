@@ -18,7 +18,7 @@ const bool
     {},{}
   };
 bool jump,pressed;
-byte i,j,x,y,jumpMove;
+byte i,j,x,y,treeX,jumpMove;
 void dino(){
   for(i=0;i<HIGHT;i++){
     for(j=0;j<WIDTH;j++){
@@ -45,8 +45,9 @@ void loop(){
   jump=0;
   pressed=0;
   x=SCREEN_WIDTH-TREE_WIDTH;
+  treeX=SCREEN_WIDTH-TREE_WIDTH;
   jumpMove=0;
-  while(jump||x>DINO_WIDTH){
+  while(jump||treeX>DINO_WIDTH){
     for(i=0;i<TREE_HIGHT;i++){
       for(j=0;j<TREE_WIDTH;j++){
         display.drawPixel(x+j,SCREEN_HIGHT-TREE_HIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
@@ -68,7 +69,8 @@ void loop(){
     if(digitalRead(BUTTON))pressed=0;
     display.fillRect(x,SCREEN_HIGHT-TREE_HIGHT,TREE_WIDTH,TREE_HIGHT,SSD1306_INVERSE);
     display.display();
-    x--;
+    if(treeX)treeX--;
+    else treeX=SCREEN_WIDTH-TREE_WIDTH;
     if(jump)jumpMove++;
   }
 }
