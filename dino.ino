@@ -18,7 +18,7 @@ const bool
     {},{}
   };
 bool jump,pressed;
-byte i,j,x,jumpMove;
+byte i,j,x,y,jumpMove;
 void dino(){
   for(i=0;i<HIGHT;i++){
     for(j=0;j<WIDTH;j++){
@@ -35,8 +35,10 @@ void setup(){
   display.clearDisplay();
 }
 void loop(){
-  for(i=0;i<HIGHT;i++){
-    for(j=0;j<WIDTH;j++){
+  x=(SCREEN_WIDTH-PLAY_WIDTH)>>=1;
+  y=(SCREEN_HIGHT-PLAY_HIGHT)>>=1;
+  for(i=0;i<PLAY_HIGHT;i++){
+    for(j=0;j<PLAY_WIDTH;j++){
       display.drawPixel(x+j,SCREEN_HIGHT-TREE_HIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
     }
   }
@@ -45,8 +47,8 @@ void loop(){
   x=SCREEN_WIDTH-TREE_WIDTH;
   jumpMove=0;
   while(jump||x>DINO_WIDTH){
-    for(i=0;i<HIGHT;i++){
-      for(j=0;j<WIDTH;j++){
+    for(i=0;i<TREE_HIGHT;i++){
+      for(j=0;j<TREE_WIDTH;j++){
         display.drawPixel(x+j,SCREEN_HIGHT-TREE_HIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
       }
     }
