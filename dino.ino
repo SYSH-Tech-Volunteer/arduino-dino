@@ -20,10 +20,9 @@ const bool
 bool jump,pressed;
 byte i,j,x,y,treeX,jumpMove;
 void dino(){
-  for(i=0;i<HIGHT;i++){
-    for(j=0;j<WIDTH;j++){
-      if(DINO[i][j])display.drawPixel(x+i,y+j,SSD1306_WHITE);
-      else ssd.draw(0,SCREEN_HEIGHT-DINO_HIGHT,SSD1306_INVERSE);
+  for(i=0;i<DINO_HIGHT;i++){
+    for(j=0;j<DINO_WIDTH;j++){
+      display.drawPixel(x+j,y+i,(DINO[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
     }
   }
 }
@@ -39,23 +38,28 @@ void loop(){
   y=(SCREEN_HIGHT-PLAY_HIGHT)>>=1;
   for(i=0;i<PLAY_HIGHT;i++){
     for(j=0;j<PLAY_WIDTH;j++){
-      display.drawPixel(x+j,SCREEN_HIGHT-TREE_HIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
+      display.drawPixel(x+j,y+i,(PLAY[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
     }
   }
   jump=0;
   pressed=0;
-  x=SCREEN_WIDTH-TREE_WIDTH;
+  x=0;
+  y=SCREEN_HIGHT-DINO_HIGHT;
   treeX=SCREEN_WIDTH-TREE_WIDTH;
   jumpMove=0;
+  while(digitalWrite(BUTTON));
+  dino();
+  display.display();
   while(jump||treeX>DINO_WIDTH){
     for(i=0;i<TREE_HIGHT;i++){
       for(j=0;j<TREE_WIDTH;j++){
-        display.drawPixel(x+j,SCREEN_HIGHT-TREE_HIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
+        display.drawPixel(treeX+j,SCREEN_HIGHT-TREE_HIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
       }
     }
     if(!digitalRead(BUTTON)&&!jump&&!pressed){
       jump=pressed=1;
       display.fillRect(0,SCREEN_HIGHT-DINO_HIGHT,DINO_WIDTH,DINO_HIGHT,SSD1306_INVERSE);
+      y=SCREEN_HIGHT-DINO_HIGHT-TREE_HIGHT;
       dino();
       display.display();
     }
@@ -63,11 +67,12 @@ void loop(){
       jump=0;
       jumpMove=0;
       display.fillRect(0,SCREEN_HIGHT-DINO_HIGHT-TREE_HIGHT,DINO_WIDTH,DINO_HIGHT,SSD1306_INVERSE);
+      y=SCREEN_HIGHT-DINO_HIGHT;
       dino();
       display.display();
     }
     if(digitalRead(BUTTON))pressed=0;
-    display.fillRect(x,SCREEN_HIGHT-TREE_HIGHT,TREE_WIDTH,TREE_HIGHT,SSD1306_INVERSE);
+    display.fillRect(treeX,SCREEN_HIGHT-TREE_HIGHT,TREE_WIDTH,TREE_HIGHT,SSD1306_INVERSE);
     display.display();
     if(treeX)treeX--;
     else treeX=SCREEN_WIDTH-TREE_WIDTH;
