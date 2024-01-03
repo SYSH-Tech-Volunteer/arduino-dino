@@ -5,20 +5,9 @@
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET 4
+#include"idno.h"
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 const byte BUTTON=2,DINO_HEIGHT=2,DINO_WIDTH=2,TREE_HEIGHT=2,TREE_WIDTH=2,PLAY_HEIGHT=2,PLAY_WIDTH=2,JUMP_MOVE=2;
-bool DINO[2][2]={
-    {1,1},
-    {1,1}
-  };
-bool  TREE[2][2]={
-    {1,1},
-    {1,1}
-  };
-bool  PLAY[2][2]={
-    {1,1},
-    {1,1}
-  };
 bool jump,pressed;
 byte i,j,x,y,treeX,jumpMove;
 void dino(){
