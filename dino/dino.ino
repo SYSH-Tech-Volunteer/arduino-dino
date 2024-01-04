@@ -5,9 +5,9 @@
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET 4
-#include"idno.h"
+#include"dino.h"
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
-const byte BUTTON=2,DINO_HEIGHT=2,DINO_WIDTH=2,TREE_HEIGHT=2,TREE_WIDTH=2,PLAY_HEIGHT=2,PLAY_WIDTH=2,JUMP_MOVE=2;
+const byte BUTTON=2,DINO_HEIGHT=10,DINO_WIDTH=10,TREE_HEIGHT=10,TREE_WIDTH=10,PLAY_HEIGHT=10,PLAY_WIDTH=10,JUMP_MOVE=30;
 bool jump,pressed;
 byte i,j,x,y,treeX,jumpMove;
 void dino(){
@@ -18,6 +18,7 @@ void dino(){
   }
 }
 void setup(){
+  Serial.begin(9600);
   pinMode(BUTTON,INPUT_PULLUP);
   display.begin(SSD1306_SWITCHCAPVCC,0x3C);
   display.display();
@@ -32,11 +33,12 @@ void loop(){
       display.drawPixel(x+j,y+i,(PLAY[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
     }
   }
+  display.display();
   jump=0;
   pressed=0;
   treeX=SCREEN_WIDTH-TREE_WIDTH;
   jumpMove=0;
-  while(digitalRead(BUTTON));
+  while(!digitalRead(BUTTON));
   x=(SCREEN_WIDTH-PLAY_WIDTH)/+2;
   y=(SCREEN_HEIGHT-PLAY_HEIGHT)/+2;
   display.fillRect(x,y,PLAY_WIDTH,PLAY_HEIGHT,SSD1306_INVERSE);
@@ -45,12 +47,13 @@ void loop(){
   dino();
   display.display();
   while(jump||treeX>DINO_WIDTH){
-    for(i=0;i<TREE_HEIGHT;i++){
-      for(j=0;j<TREE_WIDTH;j++){
-        display.drawPixel(treeX+j,SCREEN_HEIGHT-TREE_HEIGHT+i,(TREE[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
-      }
+    if(treeX==SCREEN_WIDTH-TREE_WIDTH)display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,TREE_WIDTH,TREE_HEIGHT,SSD1306_INVERSE);
+    else{
+      display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,2,TREE_HEIGHT,SSD1306_WHITE);
+      display.fillRect(treeX+10,SCREEN_HEIGHT-TREE_HEIGHT,2,TREE_HEIGHT,SSD1306_INVERSE);
     }
-    if(!digitalRead(BUTTON)&&!jump&&!pressed){
+    display.display();
+    if(digitalRead(BUTTON)&&!jump&&!pressed){
       jump=pressed=1;
       display.fillRect(0,SCREEN_HEIGHT-DINO_HEIGHT,DINO_WIDTH,DINO_HEIGHT,SSD1306_INVERSE);
       y=SCREEN_HEIGHT-DINO_HEIGHT-TREE_HEIGHT;
@@ -65,10 +68,9 @@ void loop(){
       dino();
       display.display();
     }
-    if(digitalRead(BUTTON))pressed=0;
-    display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,TREE_WIDTH,TREE_HEIGHT,SSD1306_INVERSE);
+    if(!digitalRead(BUTTON))pressed=0;
     display.display();
-    if(treeX)treeX--;
+    if(treeX)treeX-=2;
     else treeX=SCREEN_WIDTH-TREE_WIDTH;
     if(jump)jumpMove++;
   }
