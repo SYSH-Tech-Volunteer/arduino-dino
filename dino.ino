@@ -5,9 +5,20 @@
 #define SCREEN_WIDTH 128
 #define SCREEN_HEIGHT 64
 #define OLED_RESET 4
-#include"dino.h"
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 const byte BUTTON=2,DINO_HEIGHT=10,DINO_WIDTH=10,TREE_HEIGHT=10,TREE_WIDTH=10,PLAY_HEIGHT=10,PLAY_WIDTH=10,JUMP_MOVE=30;
+const bool DINO[10][10]={
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+  {0,0,0,0,0,0,0,0,0,0},
+};
 bool jump,pressed;
 byte i,j,x,y,treeX,jumpMove;
 void dino(){
@@ -49,8 +60,8 @@ void loop(){
   while(jump||treeX>DINO_WIDTH){
     if(treeX==SCREEN_WIDTH-TREE_WIDTH)display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,TREE_WIDTH,TREE_HEIGHT,SSD1306_INVERSE);
     else{
-      display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,2,TREE_HEIGHT,SSD1306_WHITE);
-      display.fillRect(treeX+10,SCREEN_HEIGHT-TREE_HEIGHT,2,TREE_HEIGHT,SSD1306_INVERSE);
+      display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,1,TREE_HEIGHT,SSD1306_WHITE);
+      display.fillRect(treeX+10,SCREEN_HEIGHT-TREE_HEIGHT,1,TREE_HEIGHT,SSD1306_INVERSE);
     }
     display.display();
     if(digitalRead(BUTTON)&&!jump&&!pressed){
@@ -70,7 +81,7 @@ void loop(){
     }
     if(!digitalRead(BUTTON))pressed=0;
     display.display();
-    if(treeX)treeX-=2;
+    if(treeX)treeX-=1;
     else treeX=SCREEN_WIDTH-TREE_WIDTH;
     if(jump)jumpMove++;
   }
