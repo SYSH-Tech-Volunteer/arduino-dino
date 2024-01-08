@@ -49,7 +49,6 @@ void loop(){
   display.fillRect(SCREEN_WIDTH-PLAY_WIDTH>>1,SCREEN_HEIGHT-PLAY_HEIGHT>>1,PLAY_WIDTH,PLAY_HEIGHT,0);
   dino();
   display.display();
-  while(1);
   while(jump||treeX>DINO_WIDTH){
     if(treeX==SCREEN_WIDTH-TREE_WIDTH)display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,TREE_WIDTH,TREE_HEIGHT,0);
     else{
