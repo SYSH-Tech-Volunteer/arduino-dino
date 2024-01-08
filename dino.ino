@@ -8,7 +8,7 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 const byte BUTTON=2,DINO_HEIGHT=10,DINO_WIDTH=10,TREE_HEIGHT=10,TREE_WIDTH=10,PLAY_HEIGHT=10,PLAY_WIDTH=10,JUMP_MOVE=30;
 const bool DINO[10][10]={
-  {0,0,0,0,0,0,0,0,0,0},
+  {1,0,0,0,0,0,0,0,0,1},
   {0,0,0,0,0,0,0,0,0,0},
   {0,0,0,0,0,0,0,0,0,0},
   {0,0,0,0,0,0,0,0,0,0},
@@ -17,12 +17,13 @@ const bool DINO[10][10]={
   {0,0,0,0,0,0,0,0,0,0},
   {0,0,0,0,0,0,0,0,0,0},
   {0,0,0,0,0,0,0,0,0,0},
-  {0,0,0,0,0,0,0,0,0,0}
+  {1,0,0,0,0,0,0,0,0,1}
 };
 bool jump,pressed;
-byte i,j,x,y,treeX,jumpMove;
+byte i,j,x,y,jumpMove;
+int treeX;
 void dino(){
-  for(i=0;i<DINO_HEIGHT;i++)for(j=0;j<DINO_WIDTH;j++)display.drawPixel(y+i,j,DINO[i][j]);
+  for(i=0;i<DINO_HEIGHT;i++)for(j=0;j<DINO_WIDTH;j++)display.drawPixel(j,y+i,DINO[i][j]);
 }
 void setup(){
   Serial.begin(9600);
@@ -46,7 +47,9 @@ void loop(){
   treeX=SCREEN_WIDTH-TREE_WIDTH;
   jumpMove=0;
   while(!digitalRead(BUTTON));
+  while(digitalRead(BUTTON));
   display.fillRect(SCREEN_WIDTH-PLAY_WIDTH>>1,SCREEN_HEIGHT-PLAY_HEIGHT>>1,PLAY_WIDTH,PLAY_HEIGHT,0);
+  display.fillRect(0,SCREEN_HEIGHT-DINO_HEIGHT,SCREEN_WIDTH,SCREEN_HEIGHT,0);
   y=SCREEN_HEIGHT-DINO_HEIGHT;
   dino();
   display.display();
