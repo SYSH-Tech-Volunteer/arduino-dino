@@ -81,7 +81,7 @@ void loop(){
     }
     if(!digitalRead(BUTTON))pressed=0;
     display.display();
-    if(treeX)treeX-=1;
+    if(treeX>=-DINO_WIDTH)treeX-=1;
     else treeX=SCREEN_WIDTH-TREE_WIDTH;
     if(jump)jumpMove++;
   }
