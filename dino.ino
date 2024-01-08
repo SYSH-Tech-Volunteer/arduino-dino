@@ -22,7 +22,7 @@ const bool DINO[10][10]={
 bool jump,pressed;
 byte i,j,x,y,treeX,jumpMove;
 void dino(){
-  for(i=0;i<DINO_HEIGHT;i++)for(j=0;j<DINO_WIDTH;j++)display.drawPixel(y+i,x+j,DINO[i][j]);
+  for(i=0;i<DINO_HEIGHT;i++)for(j=0;j<DINO_WIDTH;j++)display.drawPixel(y+i,j,DINO[i][j]);
 }
 void setup(){
   Serial.begin(9600);
@@ -47,6 +47,7 @@ void loop(){
   jumpMove=0;
   while(!digitalRead(BUTTON));
   display.fillRect(SCREEN_WIDTH-PLAY_WIDTH>>1,SCREEN_HEIGHT-PLAY_HEIGHT>>1,PLAY_WIDTH,PLAY_HEIGHT,0);
+  y=SCREEN_HEIGHT-DINO_HEIGHT;
   dino();
   display.display();
   while(jump||treeX>DINO_WIDTH){
