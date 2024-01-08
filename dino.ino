@@ -37,13 +37,13 @@ void setup(){
   display.clearDisplay();
 }
 void loop(){
-  x=(SCREEN_WIDTH-PLAY_WIDTH)/+2;
-  y=(SCREEN_HEIGHT-PLAY_HEIGHT)/+2;
-  for(i=0;i<PLAY_HEIGHT;i++){
-    for(j=0;j<PLAY_WIDTH;j++){
-      display.drawPixel(x+j,y+i,(PLAY[i][j]?SSD1306_WHITE:SSD1306_INVERSE));
-    }
-  }
+  display.fillRect(SCREEN_WIDTH-PLAY_WIDTH>>1,SCREEN_HEIGHT-PLAY_HEIGHT>>1,PALY_WIDTH,PLAY_HEIGHT,SSD1306_WHITE);
+  display.fillTriangle(
+    (SCREEN_WIDTH>>1)-(PALY_WIDTH>>2),(SCREEN_HEIGHT>>1)-(PLAY_HEIGHT>>2),
+    (SCREEN_WIDTH>>1)-(PALY_WIDTH>>2),SCREEN_HEIGHT>>1,
+    (SCREEN_WIDTH>>1)-(PALY_WIDTH>>2),(SCREEN_HEIGHT>>1)+(PLAY_HEIGHT>>2),
+    SSD1306_INVERSE
+  );
   display.display();
   jump=0;
   pressed=0;
