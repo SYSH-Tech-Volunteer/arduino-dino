@@ -8,40 +8,64 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 const byte BUTTON=2,HEIGHT=2;
 bool right;
-byte x,width,leftX,rightX;
+byte x,width,leftX,rightX,y;
 void setup(){
   pinMode(BUTTON,INPUT_PULLUP);
   display.begin(SSD1306_SWITCHCAPVCC,0x3C);
   display.display();
+  delay(1000);
   display.clearDisplay();
 }
 void loop(){
-  display.setTextSize(2);          // 設定文字大小
-  display.setTextColor(1);         // 1:OLED預設的顏色(這個會依該OLED的顏色來決定)
-  display.setCursor(5,0);          // 設定起始座標
-  display.print("Hello OLED");     // 要顯示的字串
-  display.setCursor(26,40);        // 設定起始座標
-  display.print("MiroTek");        // 要顯示的字串
-  display.display();               // 要有這行才會把文字顯示出來
-  delay(1000);
   display.clearDisplay();
   right=1;
   x=0;
   width=32;
-  display.fillRect(x,SCREEN_HEIHGT-HEIGHT,width,HEIGHT,1);
+  display.fillRect(0,SCREEN_HEIGHT-HEIGHT,width,HEIGHT,1);
+  display.display();
   while(!digitalRead(BUTTON)){
+    while(digitalRead(BUTTON));
     if(right){
       display.drawLine(x,SCREEN_HEIGHT,x,SCREEN_HEIGHT-HEIGHT,0);
       display.drawLine(x+width,SCREEN_HEIGHT,x+width,SCREEN_HEIGHT-HEIGHT,1);
+      display.display();
     }
     else{
       display.drawLine(x+width,SCREEN_HEIGHT,x+width,SCREEN_HEIGHT-HEIGHT,0);
       display.drawLine(x,SCREEN_HEIGHT,x,SCREEN_HEIGHT-HEIGHT,1);
+      display.display();
     }
-    if(x+width>=SCREEN_EWIDTH)right=0;
+    if(right)x++;
+    else x--;
+    if(x+width>=SCREEN_WIDTH)right=0;
     if(x<=0)right=1;
   }
-    
   leftX=x;
   rightX=x+width;
+  y=SCREEN_HEIGHT-(HEIGHT<<1);
+  while(x>=leftX&&x+width<=rightX){
+    display.fillRect(x,y,width,HEIGHT,1);
+    display.display();
+    while(!digitalRead(BUTTON)){
+      while(digitalRead(BUTTON));
+      if(right){
+        display.drawLine(x,y+HEIGHT,x,y,0);
+        display.drawLine(x+width,y+HEIGHT,x+width,y,1);
+        display.display();
+      }
+      else{
+        display.drawLine(x+width,y+HEIGHT,x+width,y+HEIGHT,0);
+        display.drawLine(x,y+HEIGHT,x,y+HEIGHT,1);
+        display.display();
+      }
+      if(right)x++;
+      else x--;
+      if(x+width>=SCREEN_WIDTH)right=0;
+      if(x<=0)right=1;
+    }
+    leftX=max(leftX,x);
+    rightX=min(rightX,x+width);
+    width=rightX-leftX;
+    y-=HEIGHT;
+  }
 }
