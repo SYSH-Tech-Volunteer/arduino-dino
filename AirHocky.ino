@@ -19,71 +19,60 @@ void loop(){
   score1=score2=0;
   ballX=64;
   // Start Screen
-  
-  for (byte i = 0; i < 161; i += 4) {
-    tft.fillRect(25, 0, 80, i, ORANGE);
-  }
-  for (byte i = 0; i < 81; i += 4) {
-    tft.fillRect(25, 0, i, 160, BLACK);
-  }
-
+  display.display();
+  delay(1000);
   // Draw Arrow
-  tft.setRotation(1);
   for (byte i = 0; i < 2; i++) {
     for (byte i = 0; i < 41; i++) {
-      tft.fillRect(32, 105 - i, 16, i, ARROW);
+      display.fillRect(32,105-i,16,i,1);
       delay(3);
     }
     for (byte i = 65; i > 46; i--) {
-      tft.fillTriangle(40, i, 24, 65, 56, 65, ARROW);
+      display.fillTriangle(40,i,24,65,56,65,1);
       delay(3);
     }
-    tft.setRotation(3);
   }
 
   // Wait for both players to be ready (Push Foward)
   int p1, p2;
   while (analogRead(VRY1) > 100 || analogRead(VRY2) < 923) {
     // Player 1
-    tft.setRotation(3);
     if (analogRead(VRY1) - p1 > 5) {
-      tft.fillRect(0, 25, 80, 80, BLACK);
-      tft.fillRect(32, 65, 16, 40, ARROW);
-      tft.fillTriangle(40, 45, 24, 65, 56, 65, ARROW);
+      display.fillRect(0, 25, 80, 80, BLACK);
+      display.fillRect(32, 65, 16, 40, ARROW);
+      display.fillTriangle(40, 45, 24, 65, 56, 65, ARROW);
     }
     p1 = analogRead(VRY1);
     if (analogRead(VRY1) < 234)
-      tft.fillRect(32, 65, 16, 40, WHITE);
+      display.fillRect(32, 65, 16, 40, WHITE);
     else
-      tft.fillRect(32, analogRead(VRY1) * 40 / 166 + 8.614457831325296, 16, analogRead(VRY1) * -40 / 166 + 96.3855421686747, WHITE);
+      display.fillRect(32, analogRead(VRY1) * 40 / 166 + 8.614457831325296, 16, analogRead(VRY1) * -40 / 166 + 96.3855421686747, WHITE);
     if (234 - analogRead(VRY1) > 5)
-      tft.fillTriangle(40, analogRead(VRY1) * 20 / 134 + 30.07462686567164, 24, 65, 56, 65, WHITE);
+      display.fillTriangle(40, analogRead(VRY1) * 20 / 134 + 30.07462686567164, 24, 65, 56, 65, WHITE);
 
     // Player 2
-    tft.setRotation(1);
     if (p2 - analogRead(VRY2) > 5) {
-      tft.fillRect(0, 25, 80, 80, BLACK);
-      tft.fillRect(32, 65, 16, 40, ARROW);
-      tft.fillTriangle(40, 45, 24, 65, 56, 65, ARROW);
+      display.fillRect(0, 25, 80, 80, BLACK);
+      display.fillRect(32, 65, 16, 40, ARROW);
+      display.fillTriangle(40, 45, 24, 65, 56, 65, ARROW);
     }
     p2 = analogRead(VRY2);
     if (analogRead(VRY2) > 844)
-      tft.fillRect(32, 65, 16, 40, WHITE);
+      display.fillRect(32, 65, 16, 40, WHITE);
     else
-      tft.fillRect(32, analogRead(VRY2) * -40 / 332 + 166.6867469879518, 16, analogRead(VRY2) * 40 / 332 - 61.68674698795181, WHITE);
+      display.fillRect(32, analogRead(VRY2) * -40 / 332 + 166.6867469879518, 16, analogRead(VRY2) * 40 / 332 - 61.68674698795181, WHITE);
     if (analogRead(VRY2) > 844)
-      tft.fillTriangle(40, analogRead(VRY2) * -20 / 66 + 320.75757575757575, 24, 65, 56, 65, WHITE);
+      display.fillTriangle(40, analogRead(VRY2) * -20 / 66 + 320.75757575757575, 24, 65, 56, 65, WHITE);
   }
 
   // Game Start
   while (score1 < 3 && score2 < 3) {  // Score Limit
-    tft.setRotation(3);
-    tft.fillScreen(BLACK);
+    display.fillScreen(BLACK);
     delX = delY = 0;
     ballY = 65;  // Locate Ball
-    tft.fillCircle(x1, y1, r, PONE);
-    tft.fillCircle(x2, y2, r, PTWO);
-    tft.fillCircle(ballX, ballY, r, BALL);
+    display.fillCircle(x1, y1, r, PONE);
+    displsy.fillCircle(x2, y2, r, PTWO);
+    display.fillCircle(ballX, ballY, r, BALL);
     while (ballX >= r && ballX <= 160 - r || ballY <= 55 - r || ballY > 75 + r) {  // Ball in the area
       area();
       x1 = analogRead(VRX1) * 75.0 / 1023 + 5;  // Locate Joystick 1
