@@ -1,46 +1,25 @@
-#include <Adafruit_GFX.h>
-#include <Adafruit_ST7735.h>
 #include <SPI.h>
-
-#define LEDA_PIN 7
-#define TFT_RST 9  // reset line (optional, pass -1 if not used)
-#define TFT_CS 10  // chip select line
-#define TFT_DC 8   // data command line
-#define VRX1 A0    // Player 1 X axis
-#define VRY1 A1    // Player 1 Y axis
-#define VRX2 A2    // Player 2 X axis
-#define VRY2 A3    // Player 2 Y axis
-
-// Colors in GBR format
-const uint16_t BLACK = 0x1700F3, ORANGE = 0x00C68E, ARROW = 0xec8e5f, WHITE = 0xab4e7f, PONE = 0x0DF233, PTWO = 0x6752BF, DARK = 0x1A2000, BALL = 0x520BBF, FIELD = 0x000033;
-
+#include <Wire.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SSD1306.h>
+#define SCREEN_WIDTH 128
+#define SCREEN_HEIGHT 64
+#define OLED_RESET 4
+Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 // Ball Size
-const byte r = 4;
-
-byte score1, score2;
-float ballX, ballY, x1, y1, x2, y2, lx1, lx2, ly1, ly2, delX, delY;
-Adafruit_ST7735 tft = Adafruit_ST7735(TFT_CS, TFT_DC, TFT_RST);
-void setup() {
-  pinMode(6, OUTPUT);
-  digitalWrite(6, 1);
-  pinMode(LEDA_PIN, OUTPUT);
-  pinMode(VRX1, INPUT);
-  pinMode(VRY1, INPUT);
-  pinMode(VRX2, INPUT);
-  pinMode(VRY2, INPUT);
-  analogWrite(LEDA_PIN, 128);  // Set backlight to 50% brightness
-  tft.initR(INITR_BLACKTAB);
-  Serial.begin(9600);
-  Serial.println("starting ST 7735 TFT");
-  tft.fillScreen(DARK);
+const byte VRX1=A0,VRY1=A2,VRX2=A2,VRY2=A3,R=4;
+byte score1,score2,ballX,ballY,x1,y1,x2,y2,lx1,lx2,ly1,ly2,delX,delY;
+void setup(){
+  pinMode(VRX1,INPUT);
+  pinMode(VRY1,INPUT);
+  pinMode(VRX2,INPUT);
+  pinMode(VRY2,INPUT);
 }
-
-void loop() {
-  score1 = score2 = 0;
-  ballX = 80;
-  tft.setRotation(4);
+void loop(){
+  score1=score2=0;
+  ballX=64;
   // Start Screen
-  tft.setTextColor(WHITE);
+  
   for (byte i = 0; i < 161; i += 4) {
     tft.fillRect(25, 0, 80, i, ORANGE);
   }
