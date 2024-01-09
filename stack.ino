@@ -8,7 +8,7 @@
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 const byte BUTTON=2,HEIGHT=2;
 bool right;
-byte x,width,leftX,rightX,y;
+byte x,width,leftX,rightX,y,lv;
 void setup(){
   pinMode(BUTTON,INPUT_PULLUP);
   display.begin(SSD1306_SWITCHCAPVCC,0x3C);
@@ -21,6 +21,7 @@ void loop(){
   right=1;
   x=0;
   width=32;
+  lv=1;
   display.fillRect(0,SCREEN_HEIGHT-HEIGHT,width,HEIGHT,1);
   display.display();
   while(!digitalRead(BUTTON)){
@@ -51,13 +52,13 @@ void loop(){
     display.display();
     while(!digitalRead(BUTTON)){
       if(right){
-        display.drawLine(x,y+HEIGHT-1,x,y,0);
-        display.drawLine(x+width,y+HEIGHT-1,x+width,y,1);
+        display.drawRect(x,y,lv,HEIGHT,0);
+        display.drawRect(x+width,y,lv,HEIGHT,1);
         display.display();
       }
       else{
-        display.drawLine(x+width,y+HEIGHT-1,x+width,y+HEIGHT-2,0);
-        display.drawLine(x,y+HEIGHT-1,x,y+HEIGHT-2,1);
+        display.drawRect(x+width,y,lv,HEIGHT,0);
+        display.drawRect(x,y,lv,HEIGHT,1);
         display.display();
       }
       if(right)x++;
@@ -72,6 +73,7 @@ void loop(){
     display.drawRect(0,y,leftX,HEIGHT,0);
     display.drawRect(rightX,y,SCREEN_WIDTH-rightX,HEIGHT,0);
     y-=HEIGHT;
+    lv+=2;
   }while((x>=leftX&&x<=rightX)||(x+width>=leftX&&x+width<=rightX));
   while(!digitalRead(BUTTON));
   while(digitalRead(BUTTON));
