@@ -122,10 +122,10 @@ void loop(){
 
 // DRaw the area
 void area() {
-  display.drawRect(0, 55, 2, 20,1);    // Goal 1
-  display.drawRect(158, 55, 2, 20,1);  // Goal 2
-  display.drawRect(80, 71, 1, 59, 1);   // CenteR line
-  display.drawRect(80, 0, 1, 59, 1);    // CenteR line
+  display.drawLine(0,20,0,44,1);    // Goal 1
+  display.drawLine(64,20,64,20,1);  // Goal 2
+  display.drawLine(64,0,64,31, 1);   // CenteR line
+  display.drawLine(80, 0, 1, 59, 1);    // CenteR line
   display.drawCircle(80, 65, 6, 1);     // CenteR ciRcle
   display.display();
 }
