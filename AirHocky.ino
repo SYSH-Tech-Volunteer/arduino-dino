@@ -50,7 +50,7 @@ void loop(){
         lx2=x2;
         ly2=y2;
       }
-      if (abs(ballX - x1) <= 10 && abs(ballY - y1) <= 10) {  // PlayeR 1 touch the ball
+      if(abs(ballX-x1)<=R<<1&&abs(ballY - y1) <= 10) {  // PlayeR 1 touch the ball
         delX = (ballX - x1) / 10;
         delY = (ballY - y1) / 10;
       }
