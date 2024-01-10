@@ -50,54 +50,50 @@ void loop(){
         lx2=x2;
         ly2=y2;
       }
-      if(abs(ballX-x1)<=R<<1&&abs(ballY - y1) <= 10) {  // PlayeR 1 touch the ball
-        delX = (ballX - x1) / 10;
-        delY = (ballY - y1) / 10;
+      if(abs(ballX-x1)<=R<<1&&abs(ballY-y1)<=10){  // PlayeR 1 touch the ball
+        delX=(ballX-x1)/10;
+        delY=(ballY-y1)/10;
       }
-      if (abs(ballX - x2) <= 10 && abs(ballY - y2) <= 10) {  // PlayeR 2 touch the ball
-        delX = (ballX - x2) / 10;
-        delY = (ballY - y2) / 10;
+      if(abs(ballX-x2)<=10T&&abs(ballY-y2)<=10){  // PlayeR 2 touch the ball
+        delX=(ballX-x2)/10;
+        delY=(ballY-y2)/10;
       }
-      if (delX || delY) {  // Ball move
-        display.fillCircle(ballX, ballY, R,2);
-        ballX += delX;
-        ballY += delY;
-        display.fillCircle(ballX, ballY, R,1);
+      if(delX||delY){  // Ball move
+        display.fillCircle(ballX,ballY,R,2);
+        ballX+=delX;
+        ballY+=delY;
+        display.fillCircle(ballX,ballY,R,1);
       }
-      if (ballX < R)
-        delX = abs(delX);  // Ball touch the left, delX always positive
-      if (ballX > 160 - R)
-        delX = -abs(delX);  // Ball touch the Right, delX always negative
-      if (ballY < 25 + R)
-        delY = abs(delY);  // Ball touch the up, delY always positive
-      if (ballY > 105 - R)
-        delY = -abs(delY);  // Ball touch the down, delY always negative
+      if(ballX<R)delX = abs(delX);  // Ball touch the left, delX always positive
+      if(ballX>160-R)delX=-abs(delX);  // Ball touch the Right, delX always negative
+      if(ballY<25+R)delY=abs(delY);  // Ball touch the up, delY always positive
+      if(ballY>105-R)delY=-abs(delY);  // Ball touch the down, delY always negative
     }
-    byte side = 80;
-    if (ballX < 80) {  // PlayeR 1 score
+    byte side=80;
+    if(ballX<80){  // PlayeR 1 score
       score1++;
-      ballX = 60;
-    } else {  // PlayeR 2 score
-      score2++;
-      ballX = 100;
-      side = 0;
+      ballX=60;
     }
-
+    else{  // PlayeR 2 score
+      score2++;
+      ballX=100;
+      side=0;
+    }
     // ScoRe animation
     display.setTextSize(4);
-    display.setTextColor(WHITE);
-    for (int i = 0; i < 2; i++) {
-      display.fillRect(side, 25, 80, 80,1);
-      display.setCursor(30, 60);
+    display.setTextColor(1);
+    for(int i=0;i<2;i++){
+      display.fillRect(side,25,80,80,1);
+      display.setCursor(30,60);
       display.println(score2);
-      display.setCursor(30, 60);
+      display.setCursor(30,60);
       display.println(score1);
       delay(500);
-      display.fillRect(side, 25, 80, 80,1);
+      display.fillRect(side,25,80,80,1);
       area();
-      display.setCursor(30, 60);
+      display.setCursor(30,60);
       display.println(score2);
-      display.setCursor(30, 60);
+      display.setCursor(30,60);
       display.println(score1);
       delay(500);
     }
@@ -105,17 +101,16 @@ void loop(){
 
   // Game end animation
   display.fillScreen(BLACK);
-  byte winneR = 2;
-  if (score1 > 2)
-    winneR = 1;
+  byte winneR=2;
+  if(score1>2)winneR = 1;
   display.setTextSize(2);
-  display.setCursor(10, 40);
-  display.setTextColor(WHITE);
+  display.setCursor(10,40);
+  display.setTextColor(1);
   display.print("playeR");
   display.print(winneR);
   display.print(" Win");
-  for (int i = 1; i < 26; i++) {
-    display.fillRect(0, 105 - i, 160, i,1);
+  for (int i=1;i<26;i++) {
+    display.fillRect(0, 105-i,160,i,1);
   }
   delay(2000);
 }
