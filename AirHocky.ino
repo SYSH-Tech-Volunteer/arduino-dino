@@ -7,7 +7,7 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 // Ball Size
-const byte VRX1=A0,VRY1=A2,VRX2=A2,VRY2=A3,R=2;
+const byte VRX1=A0,VRY1=A2,VRX2=A2,VRY2=A3,R=3;
 byte score1,score2,ballX,ballY,x1,y1,x2,y2,lx1,lx2,ly1,ly2,delX,delY;
 void setup(){
   pinMode(VRX1,INPUT);
@@ -23,32 +23,32 @@ void loop(){
   while(analogRead(VRY1)<800|| analogRead(VRY2)<800);
   while(score1<3&&score2<3){
     delX=delY=0;
-    x1=SCREEN_WIDTH>>2;
-    x2=SCREEN_WIDTH>>2+SCREEN_WIDTH>>1;
-    y1=y2=SCREEN_HEIGHT>>1;
+    x1=lx1=SCREEN_WIDTH>>2;
+    x2=lx2=SCREEN_WIDTH>>2+SCREEN_WIDTH>>1;
+    y1=y2=ly1=ly2=SCREEN_HEIGHT>>1;
     ballY=SCREEN_HEIGHT>>1;
     display.fillCircle(x1,y1,R,1);
     display.fillCircle(x2,y2,R,1);
     display.fillCircle(ballX,ballY,R,1);
     while(ballX>=R&&ballX<=SCREEN_HEIGHT-R||ballY<=18||ballY>46){  // Ball in the area
       area();
-      x1 = analogRead(VRX1) * 75.0 / 1023 + 5;  // Locate Joystick 1
-      y1 = analogRead(VRY1) * 70.0 / 1023 + 30;
-      if (byte(lx1) != byte(x1) || byte(ly1) != byte(y1)) {
-        display.fillCircle(lx1, ly1, R,0);
+      x1=analogRead(VRX1)*32.0/1023;  // Locate Joystick 1
+      y1=analogRead(VRY1)*32.0/1023;
+      if(byte(lx1)!=byte(x1)||byte(ly1)!=byte(y1)){
+        display.fillCircle(lx1,ly1,R,0);
         area();
-        display.fillCircle(x1, y1, R,1);
-        lx1 = x1;
-        ly1 = y1;
+        display.fillCircle(x1,y1,R,1);
+        lx1=x1;
+        ly1=y1;
       }
-      x2 = analogRead(VRX2) * 75.0 / 1023 + 80;  // Locate Joystick 2
-      y2 = analogRead(VRY2) * 70.0 / 1023 + 30;
-      if (byte(lx2) != byte(x2) || byte(ly2) != byte(y2)) {
-        display.fillCircle(lx2, ly2, R,0);
+      x2=analogRead(VRX2)*32.0/1023+32;  // Locate Joystick 2
+      y2=analogRead(VRY2)*32.0/1023;
+      if(byte(lx2)!=byte(x2)||byte(ly2)!=byte(y2)){
+        display.fillCircle(lx2,ly2,R,0);
         area();
-        display.fillCircle(x2, y2, R,1);
-        lx2 = x2;
-        ly2 = y2;
+        display.fillCircle(x2,y2,R,1);
+        lx2=x2;
+        ly2=y2;
       }
       if (abs(ballX - x1) <= 10 && abs(ballY - y1) <= 10) {  // PlayeR 1 touch the ball
         delX = (ballX - x1) / 10;
