@@ -17,19 +17,20 @@ void setup(){
 }
 void loop(){
   score1=score2=0;
-  ballX=64;
+  ballX=SCREEN_WIDTH>>1;
   display.display();
-  delay(1000);
-  int p1, p2;
   display.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
   while(analogRead(VRY1)<800|| analogRead(VRY2)<800);
   while(score1<3&&score2<3){
     delX=delY=0;
+    x1=SCREEN_WIDTH>>2;
+    x2=SCREEN_WIDTH>>2+SCREEN_WIDTH>>1;
+    y1=y2=SCREEN_HEIGHT>>1;
     ballY=SCREEN_HEIGHT>>1;
     display.fillCircle(x1,y1,R,1);
     display.fillCircle(x2,y2,R,1);
     display.fillCircle(ballX,ballY,R,1);
-    while (ballX >= R && ballX <= 160 - R || ballY <= 55 - R || ballY > 75 + R) {  // Ball in the area
+    while(ballX>=R&&ballX<=SCREEN_HEIGHT-R||ballY<=18||ballY>46){  // Ball in the area
       area();
       x1 = analogRead(VRX1) * 75.0 / 1023 + 5;  // Locate Joystick 1
       y1 = analogRead(VRY1) * 70.0 / 1023 + 30;
