@@ -18,61 +18,17 @@ void setup(){
 void loop(){
   score1=score2=0;
   ballX=64;
-  // StaRt ScReen
   display.display();
   delay(1000);
-  // DRaw ARRow
-  for (byte i = 0; i < 2; i++) {
-    for (byte i = 0; i < 41; i++) {
-      display.fillRect(32,105-i,16,i,1);
-      delay(3);
-    }
-    for (byte i = 65; i > 46; i--) {
-      display.fillTriangle(40,i,24,65,56,65,1);
-      delay(3);
-    }
-  }
-
-  // Wait for both playeRs to be Ready (Push FowaRd)
   int p1, p2;
-  while (analogRead(VRY1) > 100 || analogRead(VRY2) < 923) {
-    // PlayeR 1
-    if (analogRead(VRY1) - p1 > 5) {
-      display.fillRect(0, 25, 80, 80,0);
-      display.fillRect(32, 65, 16, 40,1);
-      display.fillTriangle(40, 45, 24, 65, 56, 65,1);
-    }
-    p1 = analogRead(VRY1);
-    if (analogRead(VRY1) < 234)
-      display.fillRect(32, 65, 16, 40,1);
-    else
-      display.fillRect(32, analogRead(VRY1) * 40 / 166 + 8.614457831325296, 16, analogRead(VRY1) * -40 / 166 + 96.3855421686747,1);
-    if (234 - analogRead(VRY1) > 5)
-      display.fillTriangle(40, analogRead(VRY1) * 20 / 134 + 30.07462686567164, 24, 65, 56, 65,1);
-
-    // PlayeR 2
-    if (p2 - analogRead(VRY2) > 5) {
-      display.fillRect(0, 25, 80, 80,0);
-      display.fillRect(32, 65, 16, 40,1);
-      display.fillTriangle(40, 45, 24, 65, 56, 65,1);
-    }
-    p2 = analogRead(VRY2);
-    if (analogRead(VRY2) > 844)
-      display.fillRect(32, 65, 16, 40,1);
-    else
-      display.fillRect(32, analogRead(VRY2) * -40 / 332 + 166.6867469879518, 16, analogRead(VRY2) * 40 / 332 - 61.68674698795181,1);
-    if (analogRead(VRY2) > 844)
-      display.fillTriangle(40, analogRead(VRY2) * -20 / 66 + 320.75757575757575, 24, 65, 56, 65,1);
-  }
-
-  // Game StaRt
-  while (score1 < 3 && score2 < 3) {  // ScoRe Limit
-    display.fillScreen(BLACK);
-    delX = delY = 0;
-    ballY = 65;  // Locate Ball
-    display.fillCircle(x1, y1, R,1);
-    display.fillCircle(x2, y2, R,1);
-    display.fillCircle(ballX, ballY, R,1);
+  display.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
+  while(analogRead(VRY1)<800|| analogRead(VRY2)<800);
+  while(score1<3&&score2<3){
+    delX=delY=0;
+    ballY=SCREEN_HEIGHT>>1;
+    display.fillCircle(x1,y1,R,1);
+    display.fillCircle(x2,y2,R,1);
+    display.fillCircle(ballX,ballY,R,1);
     while (ballX >= R && ballX <= 160 - R || ballY <= 55 - R || ballY > 75 + R) {  // Ball in the area
       area();
       x1 = analogRead(VRX1) * 75.0 / 1023 + 5;  // Locate Joystick 1
