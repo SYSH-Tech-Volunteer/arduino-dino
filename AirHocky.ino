@@ -14,6 +14,7 @@ void setup(){
   pinMode(VRY1,INPUT);
   pinMode(VRX2,INPUT);
   pinMode(VRY2,INPUT);
+  display.begin(SSD1306_SWITCHCAPVCC,0x3C);
 }
 void loop(){
   score1=score2=0;
