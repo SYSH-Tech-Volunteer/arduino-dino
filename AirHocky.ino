@@ -22,7 +22,7 @@ void setup(){
   digitalWrite(4,1);
   digitalWrite(7,0);
   display.begin(SSD1306_SWITCHCAPVCC,0x3C);
-  display.display();//
+  display.display();//開機畫面
   delay(1000);
   display.clearDisplay();
   display.setTextSize(2);      // Normal 1:1 pixel scale
