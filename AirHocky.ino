@@ -7,32 +7,47 @@
 #define OLED_RESET 4
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 // Ball Size
-const byte VRX1=A0,VRY1=A2,VRX2=A2,VRY2=A3,R=3;
+const byte VRX1=A0,VRY1=A1,VRX2=A2,VRY2=A3,R=3;
 byte score1,score2,ballX,ballY,x1,y1,x2,y2,lx1,lx2,ly1,ly2,delX,delY;
 void setup(){
+  Serial.begin(9600);
   pinMode(VRX1,INPUT);
   pinMode(VRY1,INPUT);
   pinMode(VRX2,INPUT);
   pinMode(VRY2,INPUT);
+  pinMode(2,OUTPUT);
+  digitalWrite(2,1);
   display.begin(SSD1306_SWITCHCAPVCC,0x3C);
+  display.display();
+  //delay(1000);
+  display.clearDisplay();
+  display.setTextSize(1);      // Normal 1:1 pixel scale
+  display.setTextColor(1); // Draw white text
+  display.setCursor(0, 0);     // Start at top-left corner
+  display.cp437(true);
 }
 void loop(){
   score1=score2=0;
   ballX=SCREEN_WIDTH>>1;
+  display.print("move ahead");
   display.display();
-  display.fillRect(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,0);
-  while(analogRead(VRY1)<800|| analogRead(VRY2)<800);
+  //delay(1000);
+  display.clearDisplay();
+  display.display();
+  //while(analogRead(VRY1)<800|| analogRead(VRY2)<800);
   while(score1<3&&score2<3){
     delX=delY=0;
     x1=lx1=SCREEN_WIDTH>>2;
-    x2=lx2=SCREEN_WIDTH>>2+SCREEN_WIDTH>>1;
+    x2=lx2=(SCREEN_WIDTH>>2)+(SCREEN_WIDTH>>1);
     y1=y2=ly1=ly2=SCREEN_HEIGHT>>1;
     ballY=SCREEN_HEIGHT>>1;
     display.fillCircle(x1,y1,R,1);
     display.fillCircle(x2,y2,R,1);
     display.fillCircle(ballX,ballY,R,1);
-    while(ballX>=R&&ballX<=SCREEN_HEIGHT-R||ballY<=18||ballY>46){  // Ball in the area
+    while(ballX>=R&&ballX<=SCREEN_WIDTH-R||ballY<=18||ballY>46){  // Ball in the area
       area();
+      display.display();
+      while(1);
       x1=analogRead(VRX1)*32.0/1023;  // Locate Joystick 1
       y1=analogRead(VRY1)*32.0/1023;
       if(byte(lx1)!=byte(x1)||byte(ly1)!=byte(y1)){
@@ -81,23 +96,21 @@ void loop(){
       side=0;
     }
     // ScoRe animation
-    display.setTextSize(4);
-    display.setTextColor(1);
-    for(int i=0;i<2;i++){
-      display.fillRect(side,25,80,80,1);
+    /*for(int i=0;i<2;i++){
+      //display.fillRect(side,25,80,80,1);
       display.setCursor(30,60);
       display.println(score2);
       display.setCursor(30,60);
       display.println(score1);
       delay(500);
-      display.fillRect(side,25,80,80,1);
+      //display.fillRect(side,25,80,80,1);
       area();
       display.setCursor(30,60);
       display.println(score2);
       display.setCursor(30,60);
       display.println(score1);
       delay(500);
-    }
+    }*/
   }
 
   // Game end animation
@@ -119,9 +132,9 @@ void loop(){
 // DRaw the area
 void area() {
   display.drawLine(0,20,0,44,1);    // Goal 1
-  display.drawLine(64,20,64,20,1);  // Goal 2
-  display.drawLine(64,0,64,31, 1);   // CenteR line
-  display.drawLine(80, 0, 1, 59, 1);    // CenteR line
-  display.drawCircle(80, 65, 6, 1);     // CenteR ciRcle
+  display.drawLine(127,20,127,44,1);  // Goal 2
+  display.drawLine(64,0,64,29,1);   // CenteR line
+  display.drawLine(64,35,64,64,1);    // CenteR line
+  display.drawCircle(64,32,R,1);     // CenteR ciRcle
   display.display();
 }
