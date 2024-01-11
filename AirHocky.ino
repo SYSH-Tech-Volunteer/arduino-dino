@@ -11,6 +11,7 @@ const byte VRX1=A0,VRY1=A1,VRX2=A2,VRY2=A3,R=4;
 byte score1,score2,ballX,ballY,x1,y1,x2,y2,lx1,lx2,ly1,ly2;
 int delX,delY,tmp;
 void setup(){
+  Serial.begin(9600);
   pinMode(VRX1,INPUT);
   pinMode(VRY1,INPUT);
   pinMode(VRX2,INPUT);
@@ -41,12 +42,11 @@ void loop(){
     x1=lx1=SCREEN_WIDTH>>2;
     x2=lx2=(SCREEN_WIDTH>>2)+(SCREEN_WIDTH>>1);
     y1=y2=ly1=ly2=SCREEN_HEIGHT>>1;
-    lastBallX=ballX;
-    ballY=lastBallY=SCREEN_HEIGHT>>1;
+    ballY=SCREEN_HEIGHT>>1;
     display.clearDisplay();
     display.display();
-    display.fillCircle(x1,y1,R,1);
-    display.fillCircle(x2,y2,R,1);
+    display.drawCircle(x1,y1,R,1);
+    display.drawCircle(x2,y2,R,1);
     display.fillCircle(ballX,ballY,R,1);
     while(ballX>=R&&ballX<=SCREEN_WIDTH-R||ballY<=18||ballY>46){//重複直到有人進洞
       area();
@@ -56,7 +56,7 @@ void loop(){
       if(lx1!=x1||ly1!=y1){//如果座標跟上一次不同
         display.fillCircle(lx1,ly1,R,0);//擦掉
         area();
-        display.fillCircle(x1,y1,R,1);//重畫
+        display.drawCircle(x1,y1,R,1);//重畫
         display.display();
         lx1=x1;
         ly1=y1;
@@ -66,24 +66,32 @@ void loop(){
       if(lx2!=x2||ly2!=y2){
         display.fillCircle(lx2,ly2,R,0);
         area();
-        display.fillCircle(x2,y2,R,1);
+        display.drawCircle(x2,y2,R,1);
         display.display();
         lx2=x2;
         ly2=y2;
       }
       if((ballX-x1)*(ballX-x1)+(ballY-y1)*(ballY-y1)<=(R<<1)*(R<<1)){  // PlayeR 1 touch the ball
-        tmp=delX*(ballX-x1)+delY*(ballY-y1);
-        delX-=tmp*(ballX-x1)/R;
-        delY-=tmp*(ballY-y1)/R;
-        ballX+=delX;
-        ballY+=delY;
+        if(!delX&&!delY){
+          delX=ballX-x1>>1;
+          delY=ballY-y1>>1;
+        }
+        else{
+          tmp=delX*(ballX-x1)+delY*(ballY-y1);
+          delX-=tmp*(ballX-x1)/R>>2;
+          delY-=tmp*(ballY-y1)/R>>2;
+        }
       }
       if((ballX-x2)*(ballX-x2)+(ballY-y2)*(ballY-y2)<=(R<<1)*(R<<1)){  // PlayeR 2 touch the ball
-        tmp=delX*(ballX-x2)+delY*(ballY-y2);
-        delX-=tmp*(ballX-x2)/R;
-        delY-=tmp*(ballY-y2)/R;
-        ballX+=delX;
-        ballY+=delY;
+        if(!delX&&!delY){
+          delX=ballX-x2>>1;
+          delY=ballY-y2>>1;
+        }
+        else{
+          tmp=delX*(ballX-x2)+delY*(ballY-y2);
+          delX-=tmp*(ballX-x2)/R>>2;
+          delY-=tmp*(ballY-y2)/R>>2;
+        }
       }
       if(delX||delY){  // Ball move
         display.fillCircle(ballX,ballY,R,0);
