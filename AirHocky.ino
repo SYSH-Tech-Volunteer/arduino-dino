@@ -92,12 +92,12 @@ void loop(){
     display.setCursor(0,0);
     if(ballX>SCREEN_WIDTH>>1){  // PlayeR 1 score
       score1++;
-      ballX=SCREEN_WIDTH>>1-SCREEN_WIDTH>>3;
+      ballX=(SCREEN_WIDTH>>1)+(SCREEN_WIDTH>>3);
       display.print(1);
     }
     else{  // PlayeR 2 score
       score2++;
-      ballX=SCREEN_WIDTH>>1+SCREEN_WIDTH>>3;
+      ballX=(SCREEN_WIDTH>>1)-(SCREEN_WIDTH>>3);
       display.print(2);
     }
     // Score animation
