@@ -46,10 +46,8 @@ void loop(){
     display.fillCircle(ballX,ballY,R,1);
     while(ballX>=R&&ballX<=SCREEN_WIDTH-R||ballY<=18||ballY>46){  // Ball in the area
       area();
-      display.display();
-      while(1);
-      x1=analogRead(VRX1)*32.0/1023;  // Locate Joystick 1
-      y1=analogRead(VRY1)*32.0/1023;
+      x1=analogRead(VRX1)*64.0/1023;  // Locate Joystick 1
+      y1=analogRead(VRY1)*64.0/1023;
       if(byte(lx1)!=byte(x1)||byte(ly1)!=byte(y1)){
         display.fillCircle(lx1,ly1,R,0);
         area();
@@ -66,11 +64,11 @@ void loop(){
         lx2=x2;
         ly2=y2;
       }
-      if(abs(ballX-x1)<=R<<1&&abs(ballY-y1)<=10){  // PlayeR 1 touch the ball
+      if(abs(ballX-x1)<=(R<<1)&&abs(ballY-y1)<=(R<<1)){  // PlayeR 1 touch the ball
         delX=(ballX-x1)/10;
         delY=(ballY-y1)/10;
       }
-      if(abs(ballX-x2)<=10&&abs(ballY-y2)<=10){  // PlayeR 2 touch the ball
+      if(abs(ballX-x2)<=(R<<1)&&abs(ballY-y2)<=(R<<1)){  // PlayeR 2 touch the ball
         delX=(ballX-x2)/10;
         delY=(ballY-y2)/10;
       }
