@@ -15,14 +15,14 @@ void setup(){
   pinMode(VRY1,INPUT);
   pinMode(VRX2,INPUT);
   pinMode(VRY2,INPUT);
-  pinMode(2,OUTPUT);
-  pinMode(4,OUTPUT);
-  pinMode(7,OUTPUT);
+  pinMode(2,OUTPUT);//搖桿1的5V
+  pinMode(4,OUTPUT);//搖桿2的5V
+  pinMode(7,OUTPUT);//搖桿2的GND
   digitalWrite(2,1);
   digitalWrite(4,1);
   digitalWrite(7,0);
   display.begin(SSD1306_SWITCHCAPVCC,0x3C);
-  display.display();
+  display.display();//
   delay(1000);
   display.clearDisplay();
   display.setTextSize(2);      // Normal 1:1 pixel scale
@@ -71,11 +71,11 @@ void loop(){
         lx2=x2;
         ly2=y2;
       }
-      if((ballX-x1)*(ballX-x1)+(ballY-y1)*(ballY-y1)<=R*R){  // PlayeR 1 touch the ball
+      if((ballX-x1)*(ballX-x1)+(ballY-y1)*(ballY-y1)<=(R<<1)*(R<<1)){  // PlayeR 1 touch the ball
         delX=(ballX-x1);
         delY=(ballY-y1);
       }
-      if((ballX-x2)*(ballX-x2)+(ballY-y2)*(ballY-y2)<=R*R){  // PlayeR 2 touch the ball
+      if((ballX-x2)*(ballX-x2)+(ballY-y2)*(ballY-y2)<=(R<<1)*(R<<1)){  // PlayeR 2 touch the ball
         delX=(ballX-x2);
         delY=(ballY-y2);
       }
