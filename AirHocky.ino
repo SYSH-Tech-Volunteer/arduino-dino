@@ -75,11 +75,15 @@ void loop(){
         tmp=delX*(ballX-x1)+delY*(ballY-y1);
         delX-=tmp*(ballX-x1)/R;
         delY-=tmp*(ballY-y1)/R;
+        ballX+=delX;
+        ballY+=delY;
       }
       if((ballX-x2)*(ballX-x2)+(ballY-y2)*(ballY-y2)<=(R<<1)*(R<<1)){  // PlayeR 2 touch the ball
         tmp=delX*(ballX-x2)+delY*(ballY-y2);
         delX-=tmp*(ballX-x2)/R;
         delY-=tmp*(ballY-y2)/R;
+        ballX+=delX;
+        ballY+=delY;
       }
       if(delX||delY){  // Ball move
         display.fillCircle(ballX,ballY,R,0);
