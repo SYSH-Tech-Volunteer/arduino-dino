@@ -41,6 +41,8 @@ void loop(){
     x2=lx2=(SCREEN_WIDTH>>2)+(SCREEN_WIDTH>>1);
     y1=y2=ly1=ly2=SCREEN_HEIGHT>>1;
     ballY=SCREEN_HEIGHT>>1;
+    display.clearDisplay();
+    display.display();
     display.fillCircle(x1,y1,R,1);
     display.fillCircle(x2,y2,R,1);
     display.fillCircle(ballX,ballY,R,1);
