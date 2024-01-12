@@ -57,8 +57,8 @@ void loop(){
   pressed=0;
   treeX=SCREEN_WIDTH-TREE_WIDTH;
   jumpMove=0;
-  while(!digitalRead(BUTTON));
   while(digitalRead(BUTTON));
+  while(!digitalRead(BUTTON));
   display.fillRect(SCREEN_WIDTH-PLAY_WIDTH>>1,SCREEN_HEIGHT-PLAY_HEIGHT>>1,PLAY_WIDTH,PLAY_HEIGHT,0);
   display.fillRect(0,SCREEN_HEIGHT-DINO_HEIGHT,SCREEN_WIDTH,SCREEN_HEIGHT,0);
   y=SCREEN_HEIGHT-DINO_HEIGHT;
@@ -71,7 +71,7 @@ void loop(){
       display.fillRect(treeX+10,SCREEN_HEIGHT-TREE_HEIGHT,1,TREE_HEIGHT,0);
     }
     display.display();
-    if(digitalRead(BUTTON)&&!jump&&!pressed){
+    if(!digitalRead(BUTTON)&&!jump&&!pressed){
       jump=pressed=1;
       display.fillRect(0,SCREEN_HEIGHT-DINO_HEIGHT,DINO_WIDTH,DINO_HEIGHT,0);
       y=SCREEN_HEIGHT-DINO_HEIGHT-TREE_HEIGHT;
@@ -86,7 +86,7 @@ void loop(){
       dino();
       display.display();
     }
-    if(!digitalRead(BUTTON))pressed=0;
+    if(digitalRead(BUTTON))pressed=0;
     display.display();
     if(treeX>=-DINO_WIDTH)treeX-=1;
     else treeX=SCREEN_WIDTH-TREE_WIDTH;
