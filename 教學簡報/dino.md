@@ -1,3 +1,24 @@
+# arduino 小恐龍
+
+![dino.png](img/dino.png)
+
+---
+
+# 材料
+
++ Arduino nano 
++ ST7735S LCD 螢幕
++ 杜邦線 
++ USB line
+
+---
+
+# 流程圖
+
+![](img/flowchart.svg)
+
+# 程式碼
+
 ```c++
 #include <SPI.h>
 #include <Wire.h>
