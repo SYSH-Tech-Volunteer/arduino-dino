@@ -24,7 +24,7 @@ void loop(){
   lv=1;
   display.fillRect(0,SCREEN_HEIGHT-HEIGHT,width,HEIGHT,1);
   display.display();
-  while(!digitalRead(BUTTON)){
+  while(digitalRead(BUTTON)){
     if(right){
       display.drawLine(x,SCREEN_HEIGHT,x,SCREEN_HEIGHT-HEIGHT,0);
       display.drawLine(x+width,SCREEN_HEIGHT,x+width,SCREEN_HEIGHT-HEIGHT,1);
@@ -45,12 +45,12 @@ void loop(){
   y=SCREEN_HEIGHT-(HEIGHT<<1);
   right=1;
   x=random(0,SCREEN_WIDTH-width);
-  while(digitalRead(BUTTON));
+  while(!digitalRead(BUTTON));
   do{
     x=random(0,SCREEN_WIDTH-width);
     display.fillRect(x,y,width,HEIGHT,1);
     display.display();
-    while(!digitalRead(BUTTON)){
+    while(digitalRead(BUTTON)){
       if(right){
         display.drawRect(x,y,lv,HEIGHT,0);
         display.drawRect(x+width,y,lv,HEIGHT,1);
@@ -66,7 +66,7 @@ void loop(){
       if(x+width>=SCREEN_WIDTH)right=0;
       if(x<=0)right=1;
     }
-    while(digitalRead(BUTTON));
+    while(!digitalRead(BUTTON));
     leftX=max(leftX,x);
     rightX=min(rightX,x+width);
     width=rightX-leftX;
@@ -75,6 +75,6 @@ void loop(){
     y-=HEIGHT;
     lv+=2;
   }while((x>=leftX&&x<=rightX)||(x+width>=leftX&&x+width<=rightX));
-  while(!digitalRead(BUTTON));
   while(digitalRead(BUTTON));
+  while(!digitalRead(BUTTON));
 }
