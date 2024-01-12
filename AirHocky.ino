@@ -9,7 +9,7 @@ Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 // Ball Size
 const byte VRX1=A0,VRY1=A1,VRX2=A2,VRY2=A3,R=4;
 byte score1,score2,ballX,ballY,x1,y1,x2,y2,lx1,lx2,ly1,ly2;
-int delX,delY,tmp;
+int delX,delY,tmp,fix;
 void setup(){
   Serial.begin(9600);
   pinMode(VRX1,INPUT);
@@ -78,8 +78,11 @@ void loop(){
         }
         else{
           tmp=delX*(ballX-x1)+delY*(ballY-y1);
-          delX-=tmp*(ballX-x1)/R>>2;
-          delY-=tmp*(ballY-y1)/R>>2;
+          delX-=tmp*(ballX-x1);
+          delY-=tmp*(ballY-y1);
+          fix=R/sqrt((delX*delX)+(delY*delY));
+          delX*=fix;
+          delY*=fix;
         }
       }
       if((ballX-x2)*(ballX-x2)+(ballY-y2)*(ballY-y2)<=(R<<1)*(R<<1)){  // PlayeR 2 touch the ball
@@ -89,8 +92,11 @@ void loop(){
         }
         else{
           tmp=delX*(ballX-x2)+delY*(ballY-y2);
-          delX-=tmp*(ballX-x2)/R>>2;
-          delY-=tmp*(ballY-y2)/R>>2;
+          delX-=tmp*(ballX-x2);
+          delY-=tmp*(ballY-y2);
+          fix=R/sqrt((delX*delX)+(delY*delY));
+          delX*=fix;
+          delY*=fix;
         }
       }
       if(delX||delY){  // Ball move
