@@ -1,3 +1,25 @@
+# AirHocky
+
+---
+
+# 材料
+
++ Arduino Uno 
++ 搖桿x2
++ ssd1306 OLED 螢幕
++ 杜邦線 x16
++ USB line
+
+---
+
+# 流程圖
+
+![](img/airflowchart.svg)
+
+---
+
+# 程式碼
+
 ```c++
 #include <SPI.h>
 #include <Wire.h>
