@@ -74,7 +74,7 @@ void loop(){
     display.drawRect(rightX,y,SCREEN_WIDTH-rightX,HEIGHT,0);
     y-=HEIGHT;
     lv+=2;
-  }while((x>=leftX&&x<=rightX)||(x+width>=leftX&&x+width<=rightX));
+  }while(!(x>=rightX||x+width<=leftX));
   while(analogRead(JOYSTICK)>300);
   while(analogRead(JOYSTICK)<300);
 }
