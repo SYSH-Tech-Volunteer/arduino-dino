@@ -49,7 +49,7 @@ void loop(){
     (SCREEN_WIDTH>>1)-(PLAY_WIDTH>>2),(SCREEN_HEIGHT>>1)-(PLAY_HEIGHT>>2),
     (SCREEN_WIDTH>>1)+(PLAY_WIDTH>>2),SCREEN_HEIGHT>>1,
     (SCREEN_WIDTH>>1)-(PLAY_WIDTH>>2),(SCREEN_HEIGHT>>1)+(PLAY_HEIGHT>>2),
-    0
+    0//畫開始符號
   );
   display.display();
   jump=0;
@@ -69,7 +69,7 @@ void loop(){
     else{
       display.fillRect(treeX,SCREEN_HEIGHT-TREE_HEIGHT,1,TREE_HEIGHT,1);
       display.fillRect(treeX+10,SCREEN_HEIGHT-TREE_HEIGHT,1,TREE_HEIGHT,0);
-    }
+    }//樹的移動
     display.display();
     if(!digitalRead(BUTTON)&&!jump&&!pressed){
       jumpMove=0;
@@ -80,26 +80,26 @@ void loop(){
       y=SCREEN_HEIGHT-DINO_HEIGHT-jumpHeight;
       dino();
       display.display();
-      jumpHeight++;
+      jumpHeight++;//恐龍上升
     }
     if(jumpMove>35&&jump){
       display.fillRect(0,SCREEN_HEIGHT-DINO_HEIGHT-jumpHeight-1,DINO_WIDTH,DINO_HEIGHT,0);
       y=SCREEN_HEIGHT-DINO_HEIGHT-jumpHeight;
       dino();
       display.display();
-      jumpHeight--;
+      jumpHeight--;//恐龍下降
     }
     if(jumpMove>=JUMP_MOVE){
       jump=0;
       display.fillRect(0,SCREEN_HEIGHT-DINO_HEIGHT-JUMP_HEIGHT,DINO_WIDTH,DINO_HEIGHT,0);
       y=SCREEN_HEIGHT-DINO_HEIGHT;
       dino();
-      display.display();
+      display.display();//恐龍落地
     }
     if(digitalRead(BUTTON))pressed=0;
     display.display();
     if(treeX>=-DINO_WIDTH)treeX-=1;
     else treeX=SCREEN_WIDTH-TREE_WIDTH;
-    if(jump)jumpMove++;
+    if(jump)jumpMove++;//樹回到最右邊
   }
 }
